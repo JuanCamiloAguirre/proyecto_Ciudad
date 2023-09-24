@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>Listado de Clientes</h1>
+<div>
+    
+    <a class="btn btn-primary btn-circle" onclick="return abrir_modal('{% url 'cliente_crear' %}')" href="#"
+    role="button"><i class="fa fa-plus-square"></i>Nuevo</a> 
+</div>  
+
+{% if not obj%}
+<div class="alert alert-info">No hay Clientes</div>
+{% else %}
+<table id="example" class="table table-striped">
+    <thead>
+        <tr>
+            <td>Cedula</td>
+            <td>Nombre</td>
+            <td>Apellido</td>
+            <td>Telefono</td>
+            <td>Direccion</td>
+            <td>Cuenta</td>
+            <td class="all">Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj %}
+        <tr>
+            <td>{{ item.cedula}}</td>
+            <td>{{ item.nombre_cliente}}</td>
+            <td>{{ item.apellido_cliente}}</td>
+            <td>{{ item.telefono_cliente}}</td>
+            <td>{{ item.direccion_cliente}}</td>
+            <td>{{ item.cuenta}}</td>
+            <td>
+                <a class="btn btn-warning btn-circle"  onclick="return abrir_modal('{% url 'cliente_editar' item.cedula %}')" href="#"
+                role="button"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-danger btn-circle" href="{% url 'cliente_eliminar' item.cedula %}"
+                role="button"><i class="fa fa-trash-alt"></i></a>
+            </td>
+           
+        {% endfor %}
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
+{% block js_page%}
+    <script>
+        //Llamar al plugin del datatables
+      
+          //  $(`.table`).DataTable({
+            $(document).ready(function() {
+                //$('#example').DataTable({
+                     $(`.table`).DataTable({
+                  "language": {
+                   // "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                   "decimal": "",
+                   "emptyTable": "No hay información",
+                   "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                   "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                   "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                   "infoPostFix": "",
+                   "thousands": ",",
+                   "lengthMenu": "Mostrar _MENU_ Entradas",
+                   "loadingRecords": "Cargando...",
+                   "processing": "Procesando...",
+                   "search": "Buscar:",
+                   "zeroRecords": "Sin resultados encontrados",
+                   "paginate": {
+                       "first": "Primero",
+                       "last": "Ultimo",
+                       "next": "Siguiente",
+                       "previous": "Anterior"
+                   }
+                  }
+                });
+              });
+
+        
+    </script>    
+{% endblock %}

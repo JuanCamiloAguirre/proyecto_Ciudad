@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>Listado de Tipos de Cuentas</h1>
+<div>
+    
+    <a class="btn btn-primary btn-circle" onclick="return abrir_modal('{% url 'tipo_crear' %}')" href="#"
+    role="button"><i class="fa fa-plus-square"></i>Nueva</a> 
+</div>  
+
+{% if not obj%}
+<div class="alert alert-info">No hay Tipos de Cuentas</div>
+{% else %}
+<table id="example" class="table table-striped">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>Descripcion</td>
+            <td class="all">Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj %}
+        <tr>
+            <td>{{ item.id}}</td>
+            <td>{{ item.descripcion}}</td>
+            <td>
+                <a class="btn btn-warning btn-circle"  onclick="return abrir_modal('{% url 'tipo_editar' item.id %}')" href="#"
+                role="button"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-danger btn-circle" href="{% url 'tipo_eliminar' item.id %}"
+                role="button"><i class="fa fa-trash-alt"></i></a>
+            </td>
+           
+        {% endfor %}
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
+{% block js_page%}
+    <script>
+        //Llamar al plugin del datatables
+      
+          //  $(`.table`).DataTable({
+            $(document).ready(function() {
+                //$('#example').DataTable({
+                     $(`.table`).DataTable({
+                  "language": {
+                   // "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                   "decimal": "",
+                   "emptyTable": "No hay información",
+                   "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                   "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                   "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                   "infoPostFix": "",
+                   "thousands": ",",
+                   "lengthMenu": "Mostrar _MENU_ Entradas",
+                   "loadingRecords": "Cargando...",
+                   "processing": "Procesando...",
+                   "search": "Buscar:",
+                   "zeroRecords": "Sin resultados encontrados",
+                   "paginate": {
+                       "first": "Primero",
+                       "last": "Ultimo",
+                       "next": "Siguiente",
+                       "previous": "Anterior"
+                   }
+                  }
+                });
+              });
+
+        
+    </script>    
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>Listado de proveedores</h1>
+<div>
+    
+    <a class="btn btn-primary btn-circle" onclick="return abrir_modal('{% url 'cmp:proveedor_new' %}')" href="#"
+    role="button"><i class="fa fa-plus-square"></i>Nuevo</a> 
+</div>  
+
+{% comment %} {% url 'inv:categoria_new'%}  {% endcomment %}
+{% if not obj%}
+<div class="alert alert-info">No hay proveedores</div>
+{% else %}
+<table id="example" class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Descripción</td>
+            <td>Dirección</td>
+            <td>Contacto</td>
+            <td>Teléfono</td>
+            <td>Email</td>
+            <td>Estado</td>
+            <td class="all">Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj %}
+        <tr>
+            <td>{{ item.id}}</td>
+            <td>{{ item.descripcion}}</td>
+            <td>{{ item.direccion}}</td>
+            <td>{{ item.contacto}}</td>
+            <td>{{ item.telefono}}</td>
+            <td>{{ item.email}}</td>
+            <td>{{ item.estado|yesno:"Activo, Inactivo"}}</td>
+            <td>
+                <a class="btn btn-warning btn-circle"  onclick="return abrir_modal('{% url 'cmp:proveedor_edit' item.id %}')" href="#"
+                role="button"></a>
+                <a class="btn btn-danger btn-circle" onclick="return abrir_modal('{% url 'cmp:proveedor_inactivar' item.id %}')"
+                role="button"></a>
+            </td>
+           
+        {% endfor %}
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
+{% block js_page%}
+    <script>
+        //Llamar al plugin del datatables
+      
+          //  $(`.table`).DataTable({
+            $(document).ready(function() {
+                //$('#example').DataTable({
+                     $(`.table`).DataTable({
+                  "language": {
+                   // "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                   "decimal": "",
+                   "emptyTable": "No hay información",
+                   "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                   "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                   "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                   "infoPostFix": "",
+                   "thousands": ",",
+                   "lengthMenu": "Mostrar _MENU_ Entradas",
+                   "loadingRecords": "Cargando...",
+                   "processing": "Procesando...",
+                   "search": "Buscar:",
+                   "zeroRecords": "Sin resultados encontrados",
+                   "paginate": {
+                       "first": "Primero",
+                       "last": "Ultimo",
+                       "next": "Siguiente",
+                       "previous": "Anterior"
+                   }
+                  }
+                });
+              });
+
+        
+    </script>    
+{% endblock %}
